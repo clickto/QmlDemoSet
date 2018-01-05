@@ -1,8 +1,8 @@
 <RCC>
     <qresource prefix="/">
-        <file>main.qml</file>
         <file>qtquickcontrols2.conf</file>
-        <file>Border.qml</file>
-        <file>DragRect.qml</file>
+        <file>Qml/main.qml</file>
+        <file>Qml/DragRect.qml</file>
+        <file>Qml/Border.qml</file>
     </qresource>
 </RCC>

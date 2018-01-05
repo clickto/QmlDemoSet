@@ -1,0 +1,16 @@
+[
+    {"en": "slantAngle", "zh": "倾斜角"},
+    {"en": "heightRatioDanger", "zh": "危险线高度"},
+    {"en": "heightRatioWarn", "zh": "警告线高度"},
+    {"en": "heightRatioSafe", "zh": "安全线高度"},
+    {"en": "heightRatioBase", "zh": "基线高度"},
+    {"en": "widthRatioBase", "zh": "基线宽度"},
+    {"en": "steerAngle", "zh": "偏转角"},
+    {"en": "steerAngleLimit", "zh": "偏转角限制"},
+    {"en": "safeLineWidthRatio", "zh": "安全线宽度"},
+    {"en": "warnLineWidthRatio", "zh": "警告线宽度"},
+    {"en": "dangerLineWidthRatio", "zh": "危险线宽度"},
+    {"en": "safeCurveWidthRatio", "zh": "曲线安全线宽度"},
+    {"en": "warnCurveWidthRatio", "zh": "曲线警告线宽度"},
+    {"en": "dangerCurveWidthRatio", "zh": "曲线危险线宽度"}
+]
