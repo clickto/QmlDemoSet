@@ -26,3 +26,11 @@ qml Rectangle + MouseArea 实现拖拽改变item大小
 * 调节好的参数关闭时自动保存，启动时自动加载
 
 * I18n
+
+## ArrowFolw
+
+![demo](PreviewImage/ArrowFolw.png)
+
+* PathAnimation 实现箭头流动效果
+
+* ShaderEffectSource 实现箭头流的倒影

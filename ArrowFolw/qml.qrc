@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>arrowB.png</file>
+        <file>Arrow.qml</file>
+    </qresource>
+</RCC>
