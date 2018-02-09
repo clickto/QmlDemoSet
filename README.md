@@ -1,5 +1,6 @@
 # 基于Qt5.9的Qml例子合集
 
+[![Build Status](https://travis-ci.org/wentaojia2014/QmlDemoSet.svg?branch=master)](https://travis-ci.org/wentaojia2014/QmlDemoSet)
 
 ## DragResize
 
