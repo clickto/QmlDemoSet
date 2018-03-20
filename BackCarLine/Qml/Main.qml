@@ -47,7 +47,10 @@ ApplicationWindow {
             Row {
                 spacing: 5
                 Label {
-                    text: trans.tr(model.name)
+                    text: trans.tr(model.name) + trans.driver
+                    onTextChanged: {
+                        console.log(text)
+                    }
                     width: 130
                 }
                 SpinBox {
@@ -100,6 +103,17 @@ ApplicationWindow {
             id: steerAngleText
             text: ((steerAngleDial.value - 0.5) * 2 * backCarLine.steerAngleLimit).toFixed(0)
             anchors.horizontalCenter: steerAngleDial.horizontalCenter
+        }
+    }
+    ComboBox {
+        anchors.top: parent.top
+        anchors.horizontalCenter: parent.horizontalCenter
+        model: trans.languageList
+        Component.onCompleted: {
+            currentIndex = find(trans.currentLanguage);
+        }
+        onCurrentTextChanged: {
+            trans.currentLanguage = currentText;
         }
     }
     Column {
