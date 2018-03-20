@@ -6,15 +6,13 @@
 #include <QDebug>
 
 
-I18n::I18n(QObject *parent) : QObject(parent)
-{
+I18n::I18n(QObject *parent) : QObject(parent) {
     loadTrans();
     qWarning() << mCurrentLanguage;
     qWarning() << mLanguageList;
 }
 
-QString I18n::tr(QString key)
-{
+QString I18n::tr(QString key) {
     if (currentLanguage() == EN) {
         return key;
     } else {
@@ -26,8 +24,7 @@ QString I18n::tr(QString key)
     }
 }
 
-void I18n::setCurrentLanguage(const QString &currentLanguage)
-{
+void I18n::setCurrentLanguage(const QString &currentLanguage) {
     if (mCurrentLanguage == currentLanguage)
         return;
 
@@ -37,8 +34,7 @@ void I18n::setCurrentLanguage(const QString &currentLanguage)
     qWarning() << "current change" << currentLanguage;
 }
 
-void I18n::loadTrans()
-{
+void I18n::loadTrans() {
     const QString transFilePath = QString(":/I18n/I18n.json");
     QFile file(transFilePath);
     if (file.open(QFile::ReadOnly)) {

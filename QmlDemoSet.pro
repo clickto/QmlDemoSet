@@ -2,4 +2,5 @@ TEMPLATE = subdirs
 SUBDIRS = \
     DragResize \
     BackCarLine \
-    ArrowFolw
+    ArrowFolw \
+    SondByte

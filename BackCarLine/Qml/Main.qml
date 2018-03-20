@@ -47,7 +47,7 @@ ApplicationWindow {
             Row {
                 spacing: 5
                 Label {
-                    text: trans.tr(model.name) + trans.driver
+                    text: trans.tr(model.name)
                     onTextChanged: {
                         console.log(text)
                     }
@@ -57,9 +57,9 @@ ApplicationWindow {
                     width: 100
                     minimumValue: 0
                     maximumValue: {
-                        if (model.name == "slantAngle" || model.name == "spacing")
+                        if (model.name === "slantAngle" || model.name === "spacing")
                             return 90;
-                        else if (model.name == "steerAngleLimit")
+                        else if (model.name === "steerAngleLimit")
                             return 720;
                         else
                             return 1;
@@ -123,15 +123,15 @@ ApplicationWindow {
         spacing: 5
         Text {
             color: "green"
-            text: "上面绿色的横线是安全线"
+            text: trans.tr("up green line means safe")
         }
         Text{
             color: "yellow"
-            text:"中间黄色的横线是警告线"
+            text: trans.tr("mid yellow line means warn")
         }
         Text{
             color: "red"
-            text:"下面红色的横线是危险线"
+            text: trans.tr("down red line means danger")
         }
     }
 

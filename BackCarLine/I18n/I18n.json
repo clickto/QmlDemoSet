@@ -12,5 +12,8 @@
     {"en": "dangerLineWidthRatio", "zh": "危险线宽度"},
     {"en": "safeCurveWidthRatio", "zh": "曲线安全线宽度"},
     {"en": "warnCurveWidthRatio", "zh": "曲线警告线宽度"},
-    {"en": "dangerCurveWidthRatio", "zh": "曲线危险线宽度"}
+    {"en": "dangerCurveWidthRatio", "zh": "曲线危险线宽度"},
+    {"en": "up green line means safe", "zh": "上面绿色的横线是安全线"},
+    {"en": "mid yellow line means warn", "zh": "中间黄色的横线是警告线"},
+    {"en": "down red line means danger", "zh": "下面红色的横线是危险线"}
 ]

@@ -4,8 +4,7 @@
 #include <QQuickPaintedItem>
 
 struct BackCarLinePrivate;
-class BackCarLine : public QQuickPaintedItem
-{
+class BackCarLine : public QQuickPaintedItem {
     Q_OBJECT
     //倾斜角, 左边斜线为基准，单位:角度
     Q_PROPERTY(qreal slantAngle READ slantAngle WRITE setSlantAngle NOTIFY slantAngleChanged)
@@ -120,7 +119,7 @@ private:
     void calcPoints();
 
     //d指针封装 数据成员变量，二进制兼容，方便存取默认值，代码简洁
-    BackCarLinePrivate *m_dptr;
+    BackCarLinePrivate *mDptr = nullptr;
 
 };
 

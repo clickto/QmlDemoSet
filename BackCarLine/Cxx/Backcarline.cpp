@@ -8,8 +8,7 @@
 #include <QJsonDocument>
 
 struct BackCarLinePrivate {
-    BackCarLinePrivate()
-    {
+    BackCarLinePrivate() {
         //通过json文件读取默认值
         QFile file(CONFIG_FILE_NAME);
         if (file.open(QFile::ReadOnly)) {
@@ -33,8 +32,7 @@ struct BackCarLinePrivate {
             if (obj.contains("dangerCurveWidthRatio")) dangerCurveWidthRatio = obj["dangerCurveWidthRatio"].toDouble();
         }
     }
-    ~BackCarLinePrivate()
-    {
+    ~BackCarLinePrivate() {
         //保存当前值到json文件
         QFile file(CONFIG_FILE_NAME);
         if (file.open(QFile::WriteOnly)) {
@@ -99,10 +97,7 @@ struct BackCarLinePrivate {
 
     const QString CONFIG_FILE_NAME = QString("config.json");
 };
-BackCarLine::BackCarLine(QQuickPaintedItem *parent):
-    QQuickPaintedItem(parent),
-    m_dptr(new BackCarLinePrivate)
-{
+BackCarLine::BackCarLine(QQuickPaintedItem *parent): QQuickPaintedItem(parent), mDptr(new BackCarLinePrivate) {
     //本来应该是在ComponentComplete的时候，执行第一次calcPoints，即对点的初始化.
     //但是测试发现，ComponentComplete中拿不到item的有效宽高
     //就在宽度改变的时候，进行初始化
@@ -111,13 +106,11 @@ BackCarLine::BackCarLine(QQuickPaintedItem *parent):
     });
 }
 
-BackCarLine::~BackCarLine()
-{
-    delete m_dptr;
-    m_dptr = nullptr;
+BackCarLine::~BackCarLine() {
+    delete mDptr;
+    mDptr = nullptr;
 }
-void BackCarLine::paint(QPainter *painter)
-{
+void BackCarLine::paint(QPainter *painter) {
     painter->save();
     //开启 反走样(抗锯齿)
     painter->setRenderHint(QPainter::Antialiasing);
@@ -133,11 +126,11 @@ void BackCarLine::paint(QPainter *painter)
         brush.setColor(Qt::green);
         painter->setPen(pen);
         painter->setBrush(brush);
-        painter->drawLine(m_dptr->leftWarn, m_dptr->leftSafe);
-        auto width = (m_dptr->rightSafe.x() - m_dptr->leftSafe.x()) * safeLineWidthRatio() / 2;
-        painter->drawLine(m_dptr->leftSafe, m_dptr->leftSafe + QPointF(width, 0));
-        painter->drawLine(m_dptr->rightSafe - QPointF(width, 0), m_dptr->rightSafe);
-        painter->drawLine(m_dptr->rightSafe, m_dptr->rightWarn);
+        painter->drawLine(mDptr->leftWarn, mDptr->leftSafe);
+        auto width = (mDptr->rightSafe.x() - mDptr->leftSafe.x()) * safeLineWidthRatio() / 2;
+        painter->drawLine(mDptr->leftSafe, mDptr->leftSafe + QPointF(width, 0));
+        painter->drawLine(mDptr->rightSafe - QPointF(width, 0), mDptr->rightSafe);
+        painter->drawLine(mDptr->rightSafe, mDptr->rightWarn);
     }
     //黄色警告线
     {
@@ -145,11 +138,11 @@ void BackCarLine::paint(QPainter *painter)
         brush.setColor(Qt::yellow);
         painter->setPen(pen);
         painter->setBrush(brush);
-        painter->drawLine(m_dptr->leftDanger, m_dptr->leftWarn);
-        auto width = (m_dptr->rightWarn.x() - m_dptr->leftWarn.x()) * warnLineWidthRatio() / 2;
-        painter->drawLine(m_dptr->leftWarn, m_dptr->leftWarn + QPointF(width, 0));
-        painter->drawLine(m_dptr->rightWarn - QPointF(width, 0), m_dptr->rightWarn);
-        painter->drawLine(m_dptr->rightWarn, m_dptr->rightDanger);
+        painter->drawLine(mDptr->leftDanger, mDptr->leftWarn);
+        auto width = (mDptr->rightWarn.x() - mDptr->leftWarn.x()) * warnLineWidthRatio() / 2;
+        painter->drawLine(mDptr->leftWarn, mDptr->leftWarn + QPointF(width, 0));
+        painter->drawLine(mDptr->rightWarn - QPointF(width, 0), mDptr->rightWarn);
+        painter->drawLine(mDptr->rightWarn, mDptr->rightDanger);
     }
     //红色危险线
     {
@@ -157,11 +150,11 @@ void BackCarLine::paint(QPainter *painter)
         brush.setColor(Qt::red);
         painter->setPen(pen);
         painter->setBrush(brush);
-        painter->drawLine(m_dptr->leftBase, m_dptr->leftDanger);
-        auto width = (m_dptr->rightDanger.x() - m_dptr->leftDanger.x()) * dangerLineWidthRatio() / 2;
-        painter->drawLine(m_dptr->leftDanger, m_dptr->leftDanger + QPointF(width, 0));
-        painter->drawLine(m_dptr->rightDanger - QPointF(width, 0), m_dptr->rightDanger);
-        painter->drawLine(m_dptr->rightDanger, m_dptr->rightBase);
+        painter->drawLine(mDptr->leftBase, mDptr->leftDanger);
+        auto width = (mDptr->rightDanger.x() - mDptr->leftDanger.x()) * dangerLineWidthRatio() / 2;
+        painter->drawLine(mDptr->leftDanger, mDptr->leftDanger + QPointF(width, 0));
+        painter->drawLine(mDptr->rightDanger - QPointF(width, 0), mDptr->rightDanger);
+        painter->drawLine(mDptr->rightDanger, mDptr->rightBase);
     }
     //曲线, 橙色
     {
@@ -174,20 +167,20 @@ void BackCarLine::paint(QPainter *painter)
         //两条曲线
         QPainterPath leftPath, rightPath;
 
-        leftPath.moveTo(m_dptr->leftBaseOffset);
-        leftPath.cubicTo(m_dptr->leftControlHigh, m_dptr->leftControlLow, m_dptr->leftSafeOffset);
+        leftPath.moveTo(mDptr->leftBaseOffset);
+        leftPath.cubicTo(mDptr->leftControlHigh, mDptr->leftControlLow, mDptr->leftSafeOffset);
 
-        rightPath.moveTo(m_dptr->rightBaseOffset);
-        rightPath.cubicTo(m_dptr->rightControlHigh, m_dptr->rightControlLow, m_dptr->rightSafeOffset);
+        rightPath.moveTo(mDptr->rightBaseOffset);
+        rightPath.cubicTo(mDptr->rightControlHigh, mDptr->rightControlLow, mDptr->rightSafeOffset);
 
         painter->drawPath(leftPath);
         painter->drawPath(rightPath);
 
         //曲线之间的安全线
         {
-            auto diff = m_dptr->rightSafeOffset - m_dptr->leftSafeOffset;
-            painter->drawLine(m_dptr->leftSafeOffset, m_dptr->leftSafeOffset + QPointF(diff.x() / 2 * safeCurveWidthRatio(), diff.y() / 2 * safeCurveWidthRatio()));
-            painter->drawLine(m_dptr->rightSafeOffset - QPointF(diff.x() / 2 * safeCurveWidthRatio(), diff.y() / 2 * safeCurveWidthRatio()), m_dptr->rightSafeOffset);
+            auto diff = mDptr->rightSafeOffset - mDptr->leftSafeOffset;
+            painter->drawLine(mDptr->leftSafeOffset, mDptr->leftSafeOffset + QPointF(diff.x() / 2 * safeCurveWidthRatio(), diff.y() / 2 * safeCurveWidthRatio()));
+            painter->drawLine(mDptr->rightSafeOffset - QPointF(diff.x() / 2 * safeCurveWidthRatio(), diff.y() / 2 * safeCurveWidthRatio()), mDptr->rightSafeOffset);
         }
         //曲线之间的警告线
         {
@@ -225,8 +218,7 @@ void BackCarLine::paint(QPainter *painter)
     }
     painter->restore();
 }
-void BackCarLine::calcPoints()
-{
+void BackCarLine::calcPoints() {
     auto w = width();
     auto h = height();
 
@@ -272,211 +264,180 @@ void BackCarLine::calcPoints()
     auto midOffsetY = 0;
 
     //梯形各点坐标
-    m_dptr->leftBase = QPointF (leftBaseX, leftBaseY);
-    m_dptr->leftDanger = QPointF (leftDangerX, leftDangerY);
-    m_dptr->leftWarn = QPointF(leftWarnX, leftWarnY);
-    m_dptr->leftSafe = QPointF(leftSafeX, leftSafeY);
+    mDptr->leftBase = QPointF (leftBaseX, leftBaseY);
+    mDptr->leftDanger = QPointF (leftDangerX, leftDangerY);
+    mDptr->leftWarn = QPointF(leftWarnX, leftWarnY);
+    mDptr->leftSafe = QPointF(leftSafeX, leftSafeY);
 
 
-    m_dptr->rightBase = QPointF (rightBaseX, rightBaseY);
-    m_dptr->rightDanger = QPointF (rightDangerX, rightDangerY);
-    m_dptr->rightWarn = QPointF(rightWarnX, rightWarnY);
-    m_dptr->rightSafe = QPointF(rightSafeX, rightSafeY);
+    mDptr->rightBase = QPointF (rightBaseX, rightBaseY);
+    mDptr->rightDanger = QPointF (rightDangerX, rightDangerY);
+    mDptr->rightWarn = QPointF(rightWarnX, rightWarnY);
+    mDptr->rightSafe = QPointF(rightSafeX, rightSafeY);
 
     //曲线各点坐标
-    m_dptr->leftSafeOffset = m_dptr->leftSafe + QPointF(safeOffsetX, -safeOffsetY);
-    m_dptr->leftWarnOffset = m_dptr->leftWarn + QPointF(warnOffsetX, -warnOffsetY);
-    m_dptr->leftDangerOffset = m_dptr->leftDanger + QPointF(dangerOffsetX, -dangerOffsetY);
-    m_dptr->leftBaseOffset = m_dptr->leftBase + QPointF(baseOffsetX, baseOffsetY);
+    mDptr->leftSafeOffset = mDptr->leftSafe + QPointF(safeOffsetX, -safeOffsetY);
+    mDptr->leftWarnOffset = mDptr->leftWarn + QPointF(warnOffsetX, -warnOffsetY);
+    mDptr->leftDangerOffset = mDptr->leftDanger + QPointF(dangerOffsetX, -dangerOffsetY);
+    mDptr->leftBaseOffset = mDptr->leftBase + QPointF(baseOffsetX, baseOffsetY);
 
-    m_dptr->rightSafeOffset = m_dptr->rightSafe + QPointF(safeOffsetX, safeOffsetY);
-    m_dptr->rightWarnOffset = m_dptr->rightWarn + QPointF(warnOffsetX, warnOffsetY);
-    m_dptr->rightDangerOffset = m_dptr->rightDanger + QPointF(dangerOffsetX, dangerOffsetY);
-    m_dptr->rightBaseOffset = m_dptr->rightBase + QPointF(baseOffsetX, baseOffsetY);
+    mDptr->rightSafeOffset = mDptr->rightSafe + QPointF(safeOffsetX, safeOffsetY);
+    mDptr->rightWarnOffset = mDptr->rightWarn + QPointF(warnOffsetX, warnOffsetY);
+    mDptr->rightDangerOffset = mDptr->rightDanger + QPointF(dangerOffsetX, dangerOffsetY);
+    mDptr->rightBaseOffset = mDptr->rightBase + QPointF(baseOffsetX, baseOffsetY);
     //两个控制点放在中间
-    m_dptr->leftControlHigh = QPointF(leftMidX + midOffsetX, leftMidY + midOffsetY);
-    m_dptr->leftControlLow = QPointF(leftMidX + midOffsetX, leftMidY + midOffsetY);
+    mDptr->leftControlHigh = QPointF(leftMidX + midOffsetX, leftMidY + midOffsetY);
+    mDptr->leftControlLow = QPointF(leftMidX + midOffsetX, leftMidY + midOffsetY);
 
     //两个控制点放在中间
-    m_dptr->rightControlHigh = QPointF(rightMidX + midOffsetX, rightMidY + midOffsetY);
-    m_dptr->rightControlLow = QPointF(rightMidX + midOffsetX, rightMidY + midOffsetY);
+    mDptr->rightControlHigh = QPointF(rightMidX + midOffsetX, rightMidY + midOffsetY);
+    mDptr->rightControlLow = QPointF(rightMidX + midOffsetX, rightMidY + midOffsetY);
 }
 
-bool BackCarLine::setProperty(QString name, const QVariant &value)
-{
+bool BackCarLine::setProperty(QString name, const QVariant &value) {
     //QString 转QByteArray,再转char *,不要省略中间变量。
     auto data = name.toLatin1();
     return this->QObject::setProperty(data.constData(), value);
 }
-QVariant BackCarLine::getProperty(QString name)
-{
+QVariant BackCarLine::getProperty(QString name) {
     //QString 转QByteArray,再转char *,不要省略中间变量。
     auto data = name.toLatin1();
     return this->QObject::property(data.constData());
 }
 
-void BackCarLine::manualUpdate()
-{
+void BackCarLine::manualUpdate() {
     calcPoints();
     this->update();
 }
 //×××××××××××××××××××Propertys*************************//
-qreal BackCarLine::slantAngle () const
-{
-    return m_dptr->slantAngle;
+qreal BackCarLine::slantAngle () const {
+    return mDptr->slantAngle;
 }
-void BackCarLine::setSlantAngle (qreal value)
-{
-    if ( m_dptr->slantAngle == value) return;
-    m_dptr->slantAngle = value;
+void BackCarLine::setSlantAngle (qreal value) {
+    if ( mDptr->slantAngle == value) return;
+    mDptr->slantAngle = value;
     emit slantAngleChanged();
 }
-qreal BackCarLine::heightRatioDanger () const
-{
-    return m_dptr->heightRatioDanger;
+qreal BackCarLine::heightRatioDanger () const {
+    return mDptr->heightRatioDanger;
 }
-void BackCarLine::setHeightRatioDanger (qreal value)
-{
-    if ( m_dptr->heightRatioDanger == value) return;
-    m_dptr->heightRatioDanger = value;
+void BackCarLine::setHeightRatioDanger (qreal value) {
+    if ( mDptr->heightRatioDanger == value) return;
+    mDptr->heightRatioDanger = value;
     emit heightRatioDangerChanged();
 }
-qreal BackCarLine::heightRatioWarn () const
-{
-    return m_dptr->heightRatioWarn;
+qreal BackCarLine::heightRatioWarn () const {
+    return mDptr->heightRatioWarn;
 }
-void BackCarLine::setHeightRatioWarn (qreal value)
-{
-    if ( m_dptr->heightRatioWarn == value) return;
-    m_dptr->heightRatioWarn = value;
+void BackCarLine::setHeightRatioWarn (qreal value) {
+    if ( mDptr->heightRatioWarn == value) return;
+    mDptr->heightRatioWarn = value;
     emit heightRatioWarnChanged();
 }
-qreal BackCarLine::heightRatioSafe () const
-{
-    return m_dptr->heightRatioSafe;
+qreal BackCarLine::heightRatioSafe () const {
+    return mDptr->heightRatioSafe;
 }
-void BackCarLine::setHeightRatioSafe (qreal value)
-{
-    if ( m_dptr->heightRatioSafe == value) return;
-    m_dptr->heightRatioSafe = value;
+void BackCarLine::setHeightRatioSafe (qreal value) {
+    if ( mDptr->heightRatioSafe == value) return;
+    mDptr->heightRatioSafe = value;
     emit heightRatioSafeChanged();
 }
-qreal BackCarLine::heightRatioBase () const
-{
-    return m_dptr->heightRatioBase;
+qreal BackCarLine::heightRatioBase () const {
+    return mDptr->heightRatioBase;
 }
-void BackCarLine::setHeightRatioBase (qreal value)
-{
-    if ( m_dptr->heightRatioBase == value) return;
-    m_dptr->heightRatioBase = value;
+void BackCarLine::setHeightRatioBase (qreal value) {
+    if ( mDptr->heightRatioBase == value) return;
+    mDptr->heightRatioBase = value;
     emit heightRatioBaseChanged();
 }
-qreal BackCarLine::widthRatioBase () const
-{
-    return m_dptr->widthRatioBase;
+qreal BackCarLine::widthRatioBase () const {
+    return mDptr->widthRatioBase;
 }
-void BackCarLine::setWidthRatioBase (qreal value)
-{
-    if ( m_dptr->widthRatioBase == value) return;
-    m_dptr->widthRatioBase = value;
+void BackCarLine::setWidthRatioBase (qreal value) {
+    if ( mDptr->widthRatioBase == value) return;
+    mDptr->widthRatioBase = value;
     emit widthRatioBaseChanged();
 }
-qreal BackCarLine::steerAngle () const
-{
-    return m_dptr->steerAngle;
+qreal BackCarLine::steerAngle () const {
+    return mDptr->steerAngle;
 }
-void BackCarLine::setSteerAngle (qreal value)
-{
-    if ( m_dptr->steerAngle == value) return;
-    m_dptr->steerAngle = value;
+void BackCarLine::setSteerAngle (qreal value) {
+    if ( mDptr->steerAngle == value) return;
+    mDptr->steerAngle = value;
     emit steerAngleChanged();
 }
-void BackCarLine::setSafeLineWidthRatio(qreal safeLineWidthRatio)
-{
-    if (m_dptr->safeLineWidthRatio == safeLineWidthRatio)
+void BackCarLine::setSafeLineWidthRatio(qreal safeLineWidthRatio) {
+    if (mDptr->safeLineWidthRatio == safeLineWidthRatio)
         return;
 
-    m_dptr->safeLineWidthRatio = safeLineWidthRatio;
+    mDptr->safeLineWidthRatio = safeLineWidthRatio;
     emit safeLineWidthRatioChanged();
 }
-void BackCarLine::setWarnLineWidthRatio(qreal warnLineWidthRatio)
-{
-    if (m_dptr->warnLineWidthRatio == warnLineWidthRatio)
+void BackCarLine::setWarnLineWidthRatio(qreal warnLineWidthRatio) {
+    if (mDptr->warnLineWidthRatio == warnLineWidthRatio)
         return;
 
-    m_dptr->warnLineWidthRatio = warnLineWidthRatio;
+    mDptr->warnLineWidthRatio = warnLineWidthRatio;
     emit warnLineWidthRatioChanged();
 }
-void BackCarLine::setDangerLineWidthRatio(qreal dangerLineWidthRatio)
-{
-    if (m_dptr->dangerLineWidthRatio == dangerLineWidthRatio)
+void BackCarLine::setDangerLineWidthRatio(qreal dangerLineWidthRatio) {
+    if (mDptr->dangerLineWidthRatio == dangerLineWidthRatio)
         return;
 
-    m_dptr->dangerLineWidthRatio = dangerLineWidthRatio;
+    mDptr->dangerLineWidthRatio = dangerLineWidthRatio;
     emit dangerLineWidthRatioChanged();
 }
-void BackCarLine::setSafeCurveWidthRatio(qreal safeCurveWidthRatio)
-{
-    if (m_dptr->safeCurveWidthRatio == safeCurveWidthRatio)
+void BackCarLine::setSafeCurveWidthRatio(qreal safeCurveWidthRatio) {
+    if (mDptr->safeCurveWidthRatio == safeCurveWidthRatio)
         return;
 
-    m_dptr->safeCurveWidthRatio = safeCurveWidthRatio;
+    mDptr->safeCurveWidthRatio = safeCurveWidthRatio;
     emit safeCurveWidthRatioChanged();
 }
 
-void BackCarLine::setWarnCurveWidthRatio(qreal warnCurveWidthRatio)
-{
-    if (m_dptr->warnCurveWidthRatio == warnCurveWidthRatio)
+void BackCarLine::setWarnCurveWidthRatio(qreal warnCurveWidthRatio) {
+    if (mDptr->warnCurveWidthRatio == warnCurveWidthRatio)
         return;
 
-    m_dptr->warnCurveWidthRatio = warnCurveWidthRatio;
+    mDptr->warnCurveWidthRatio = warnCurveWidthRatio;
     emit warnCurveWidthRatioChanged();
 }
 
-void BackCarLine::setDangerCurveWidthRatio(qreal dangerCurveWidthRatio)
-{
-    if (m_dptr->dangerCurveWidthRatio == dangerCurveWidthRatio)
+void BackCarLine::setDangerCurveWidthRatio(qreal dangerCurveWidthRatio) {
+    if (mDptr->dangerCurveWidthRatio == dangerCurveWidthRatio)
         return;
 
-    m_dptr->dangerCurveWidthRatio = dangerCurveWidthRatio;
+    mDptr->dangerCurveWidthRatio = dangerCurveWidthRatio;
     emit dangerCurveWidthRatioChanged();
 }
-qreal BackCarLine::steerAngleLimit() const
-{
-    return m_dptr->steerAngleLimit;
+qreal BackCarLine::steerAngleLimit() const {
+    return mDptr->steerAngleLimit;
 }
-void BackCarLine::setSteerAngleLimit(qreal value)
-{
+void BackCarLine::setSteerAngleLimit(qreal value) {
     if (steerAngleLimit() == value) return;
 
-    m_dptr->steerAngleLimit = value;
+    mDptr->steerAngleLimit = value;
     emit steerAngleLimitChanged();
 }
-qreal BackCarLine::safeLineWidthRatio() const
-{
-    return m_dptr->safeLineWidthRatio;
+qreal BackCarLine::safeLineWidthRatio() const {
+    return mDptr->safeLineWidthRatio;
 }
 
-qreal BackCarLine::warnLineWidthRatio() const
-{
-    return m_dptr->warnLineWidthRatio;
+qreal BackCarLine::warnLineWidthRatio() const {
+    return mDptr->warnLineWidthRatio;
 }
 
-qreal BackCarLine::dangerLineWidthRatio() const
-{
-    return m_dptr->dangerLineWidthRatio;
+qreal BackCarLine::dangerLineWidthRatio() const {
+    return mDptr->dangerLineWidthRatio;
 }
-qreal BackCarLine::safeCurveWidthRatio() const
-{
-    return m_dptr->safeCurveWidthRatio;
+qreal BackCarLine::safeCurveWidthRatio() const {
+    return mDptr->safeCurveWidthRatio;
 }
 
-qreal BackCarLine::warnCurveWidthRatio() const
-{
-    return m_dptr->warnCurveWidthRatio;
+qreal BackCarLine::warnCurveWidthRatio() const {
+    return mDptr->warnCurveWidthRatio;
 }
 
-qreal BackCarLine::dangerCurveWidthRatio() const
-{
-    return m_dptr->dangerCurveWidthRatio;
+qreal BackCarLine::dangerCurveWidthRatio() const {
+    return mDptr->dangerCurveWidthRatio;
 }
